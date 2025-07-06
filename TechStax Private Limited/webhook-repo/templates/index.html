@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Events</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Recent GitHub Events</h2>
+        <ul id="event-list">
+            {% for record in records %}
+            <li>{{ record }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        function fetchEvents() {
+            fetch('/poll')
+                .then(res => res.json())
+                .then(data => {
+                    const list = document.getElementById('event-list');
+                    list.innerHTML = '';
+                    data.forEach(item => {
+                        const li = document.createElement('li');
+                        li.innerText = item;
+                        list.appendChild(li);
+                    });
+                });
+        }
+
+        setInterval(fetchEvents, 15000); // every 15 seconds
+    </script>
+</body>
+</html>
